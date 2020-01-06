@@ -1,0 +1,12 @@
+.rectangle {
+    border: 2px solid black;
+    width: 7px;
+    display: inline-block;  
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.rectangleContainer {
+    text-align: center;
+}
+
