@@ -1,41 +1,41 @@
-export function bubbleSort(arr) {
-  let n = arr.length;
-  let memoized = [];
-  let colors = [];
+export function bubbleSort(array) {
+  let n = array.length;
+  let frames = [];
+  let framesColors = [];
 
   for (let i = 0; i < n - 1; i++) {
     for (let j = 0; j < n - i - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
-        memoized.push(cloneArray(arr));
+      if (array[j] > array[j + 1]) {
+        frames.push(cloneArray(array));
         let currentColors = new Array(n).fill("powderBlue");
         currentColors[j] = "red";
         currentColors[j + 1] = "red";
-        colors.push(currentColors);
+        framesColors.push(currentColors);
 
-        let temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
+        let temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
 
-        memoized.push(cloneArray(arr));
+        frames.push(cloneArray(array));
         currentColors = new Array(n).fill("powderBlue");
         currentColors[j] = "green";
         currentColors[j + 1] = "green";
-        colors.push(currentColors);
+        framesColors.push(currentColors);
       } else {
-        memoized.push(cloneArray(arr));
+        frames.push(cloneArray(array));
         let currentColors = new Array(n).fill("powderBlue");
-        currentColors[j] = "yellow";
-        currentColors[j + 1] = "yellow";
-        colors.push(currentColors);
+        currentColors[j] = "green";
+        currentColors[j + 1] = "green";
+        framesColors.push(currentColors);
       }
     }
   }
 
-  memoized.push(cloneArray(arr));
+  frames.push(cloneArray(array));
   let currentColors = new Array(n).fill("powderBlue");
-  colors.push(currentColors);
+  framesColors.push(currentColors);
 
-  return [memoized, colors];
+  return [frames, framesColors];
 }
 
 function cloneArray(array) {

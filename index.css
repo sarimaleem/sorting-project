@@ -1,12 +1,42 @@
 .rectangle {
-    border: 2px solid black;
-    width: 7px;
+    /* border: black; */
+    width: 5px;
     display: inline-block;  
-    margin-left: -1px;
-    margin-right: -1px;
+    /* margin-left: px; */
+    margin-right: 1px;
 }
 
 .rectangleContainer {
     text-align: center;
+}
+
+body {
+    background-color: hsl(240, 100%, 95%) ;
+}
+
+h1 {
+    font-size: 75px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.buttonContainer {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
 }
 

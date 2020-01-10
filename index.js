@@ -2,38 +2,37 @@ import React, { memo } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { bubbleSort } from "./bubbleSort";
+import { quickSort } from "./quickSort";
 
 function Rectangle(height, color) {
   return (
     <div
       className="rectangle"
-      style = {{height: height, background: color}}>
-    </div>
+      style={{ height: height, background: color }}
+    ></div>
   );
 }
-
-
-
 
 class CollectionOfRectangles extends React.Component {
   constructor(props) {
     super(props);
-
-    let size = 80
+    let size = 75 ;
     let values = this.genValueArray(size);
     let rects = this.genRects(values, new Array(size).fill("powderBlue"));
 
     this.state = { values: values, rects: rects };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickBubbleSort = this.handleClickBubbleSort.bind(this);
+    this.handleClickQuickSort = this.handleClickQuickSort.bind(this);
     this.animate = this.animate.bind(this);
+    this.resetValues = this.resetValues.bind(this);
   }
-  
+
   genValueArray(n) {
     let values = [];
 
     for (let i = 0; i < n; i++) {
-      let value = Math.floor(Math.random() * 300);
+      let value = Math.floor(Math.random() * 500);
       values.push(value);
     }
 
@@ -45,40 +44,66 @@ class CollectionOfRectangles extends React.Component {
 
     for (var i = 0; i < heights.length; i++) {
       let height = heights[i];
-      rects.push(Rectangle(height, colors[i]))
+      rects.push(Rectangle(height, colors[i]));
     }
     return rects;
   }
-  
 
-  animate(memoized, memoizedColors, index) {
-
-    if(memoized.length === index) {
+  animate(frames, framesColors, index) {
+    if (frames.length === index) {
       return;
     }
-    
-    const currentHeights = memoized[index]
-    const currentColors = memoizedColors[index]
-    let rectsArr = this.genRects(currentHeights, currentColors)
 
-    this.setState({ rects: rectsArr, values: currentHeights});
+    const currentHeights = frames[index];
+    const currentColors = framesColors[index];
+    let rectsArr = this.genRects(currentHeights, currentColors);
 
-    let delay = 1;
-    setTimeout(() => this.animate(memoized, memoizedColors ,index + 1), delay);
+    this.setState({ rects: rectsArr, values: currentHeights });
+
+    let delay = 10;
+    setTimeout(() => this.animate(frames, framesColors, index + 1), delay);
   }
 
-  handleClick() {
+  handleClickBubbleSort() {
     let vals = this.state.values;
-    let [memoized, memoizedColors] = bubbleSort(vals)
-    this.animate(memoized, memoizedColors, 0)
+    let [frames, framesColors] = bubbleSort(vals);
+    this.animate(frames, framesColors, 0);
+  }
+
+  
+  handleClickQuickSort() {
+    let vals = this.state.values;
+    let [frames, framesColors] = quickSort(vals);
+    this.animate(frames, framesColors, 0);
+  }
+
+  resetValues() {
+    let n = this.state.values.length;
+    let array = this.genValueArray(n);
+    let rects = this.genRects(array, new Array(n).fill("powderBlue"))
+    this.setState({values: array, rects: rects})
   }
 
   render() {
     return (
-      <div className = "rectangleContainer">
+      <div>
+      <div className="buttonContainer">
+        <br/>
+        <button onClick={this.handleClickBubbleSort} className="buttons">bubble sort</button>
+
+        <button onClick = {this.handleClickQuickSort} className="buttons">quick sort</button>
+
+        <button onClick = {this.resetValues} className="buttons">reset values</button>
+        <br/>
+        
+      </div>
+      <div className="rectangleContainer">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         {this.state.rects}
-        <br />
-        <button onClick={this.handleClick}>animation</button>
+      </div>
       </div>
     );
   }
