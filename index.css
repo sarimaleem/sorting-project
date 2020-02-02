@@ -1,10 +1,15 @@
 
 .rectangle {
   /* border: black; */
-  width: 10px;
+  width: 5px;
   display: inline-block;  
   /* margin-left: px; */
   margin-right: 1px;
+}
+
+.titleContainer {
+  background-color: black ;
+  margin-top: -50px;
 }
 
 .rectangleContainer {
@@ -19,6 +24,7 @@ h1 {
   font-size: 75px;
   text-align: center;
   font-family: 'Courier New', Courier, monospace;
+  color: gold;
 }
 
 .buttonContainer {
@@ -40,3 +46,16 @@ margin: 4px 2px;
 cursor: pointer;
 border-radius: 8px;
 }
+
+#specialButton {
+  background-color: red;
+}
+
+.bottom {
+  background-color: black;
+  color: gold;
+  font-size: 35px;
+  text-align: center;
+  height: 300px;
+}
+

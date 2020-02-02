@@ -17,7 +17,7 @@ function Rectangle(height, color) {
 class CollectionOfRectangles extends React.Component {
   constructor(props) {
     super(props);
-    let size = 75 ;
+    let size = 200 ;
     let values = this.genValueArray(size);
     let rects = this.genRects(values, new Array(size).fill("powderBlue"));
 
@@ -95,16 +95,20 @@ class CollectionOfRectangles extends React.Component {
   render() {
     return (
       <div>
-      <h1>Sorting Project</h1>
+          <div className="titleContainer">
+            <h1>Sorting Project</h1>
+
+          </div>
       <div className="buttonContainer">
         <br/>
         <button onClick={this.handleClickBubbleSort} className="buttons">bubble sort</button>
 
         <button onClick = {this.handleClickQuickSort} className="buttons">quick sort</button>
 
-        <button onClick = {this.resetValues} className="buttons">randomize array</button>
-
         <button onClick = {this.handleClickMergeSort} className="buttons">merge sort</button>
+        
+        <button onClick = {this.resetValues} className="buttons" id="specialButton">randomize array</button>
+
         <br/>
         
       </div>
@@ -114,6 +118,9 @@ class CollectionOfRectangles extends React.Component {
         <br/>
         <br/>
         {this.state.rects}
+      </div>
+      <div className="bottom">
+        Created by Sarim Aleem
       </div>
       </div>
     );
