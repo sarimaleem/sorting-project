@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { bubbleSort } from "./bubbleSort";
 import { quickSort } from "./quickSort";
+import {mergeSort} from "./mergeSort"
 
 function Rectangle(height, color) {
   return (
@@ -84,16 +85,25 @@ class CollectionOfRectangles extends React.Component {
     this.setState({values: array, rects: rects})
   }
 
+  handleClickMergeSort() {
+      let vals = this.state.values;
+      let [frames, framesColors] = mergeSort(vals);
+      this.animate(frames, framesColors, 0);
+  }
+
   render() {
     return (
       <div>
+      <h1>Sorting Project</h1>
       <div className="buttonContainer">
         <br/>
         <button onClick={this.handleClickBubbleSort} className="buttons">bubble sort</button>
 
         <button onClick = {this.handleClickQuickSort} className="buttons">quick sort</button>
 
-        <button onClick = {this.resetValues} className="buttons">reset values</button>
+        <button onClick = {this.resetValues} className="buttons">randomize array</button>
+
+        <button onClick = {this.handleClickMergeSort} className="buttons">merge sort</button>
         <br/>
         
       </div>

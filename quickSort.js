@@ -91,6 +91,3 @@ function cloneArray(array) {
     }
     return clone;
 }
-
-let array = [5, 36, 9, 100, 20, 9, 3, 5, 4, 8, 2];
-console.log(quickSort(array))
