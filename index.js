@@ -25,6 +25,7 @@ class CollectionOfRectangles extends React.Component {
 
     this.handleClickBubbleSort = this.handleClickBubbleSort.bind(this);
     this.handleClickQuickSort = this.handleClickQuickSort.bind(this);
+    this.handleClickMergeSort = this.handleClickMergeSort.bind(this)
     this.animate = this.animate.bind(this);
     this.resetValues = this.resetValues.bind(this);
   }
