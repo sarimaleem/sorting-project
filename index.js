@@ -5,6 +5,8 @@ import { bubbleSort } from "./bubbleSort";
 import { quickSort } from "./quickSort";
 import {mergeSort} from "./mergeSort"
 
+
+
 function Rectangle(height, color) {
   return (
     <div
@@ -17,11 +19,11 @@ function Rectangle(height, color) {
 class CollectionOfRectangles extends React.Component {
   constructor(props) {
     super(props);
-    let size = 200 ;
+    let size = 100 ;
     let values = this.genValueArray(size);
     let rects = this.genRects(values, new Array(size).fill("powderBlue"));
 
-    this.state = { values: values, rects: rects };
+    this.state = { values: values, rects: rects, buttonsOff: false, animate: true};
 
     this.handleClickBubbleSort = this.handleClickBubbleSort.bind(this);
     this.handleClickQuickSort = this.handleClickQuickSort.bind(this);
@@ -34,7 +36,7 @@ class CollectionOfRectangles extends React.Component {
     let values = [];
 
     for (let i = 0; i < n; i++) {
-      let value = Math.floor(Math.random() * 500);
+      let value = Math.floor(Math.random() * 250);
       values.push(value);
     }
 
@@ -52,7 +54,8 @@ class CollectionOfRectangles extends React.Component {
   }
 
   animate(frames, framesColors, index) {
-    if (frames.length === index) {
+    if (frames.length === index || !this.state.animate) {
+      console.log(this.state.animate);
       return;
     }
 
@@ -62,50 +65,60 @@ class CollectionOfRectangles extends React.Component {
 
     this.setState({ rects: rectsArr, values: currentHeights });
 
-    let delay = 10;
+    let delay = 5;
     setTimeout(() => this.animate(frames, framesColors, index + 1), delay);
-  }
-
-  handleClickBubbleSort() {
-    let vals = this.state.values;
-    let [frames, framesColors] = bubbleSort(vals);
-    this.animate(frames, framesColors, 0);
-  }
-
-  
-  handleClickQuickSort() {
-    let vals = this.state.values;
-    let [frames, framesColors] = quickSort(vals);
-    this.animate(frames, framesColors, 0);
   }
 
   resetValues() {
     let n = this.state.values.length;
     let array = this.genValueArray(n);
     let rects = this.genRects(array, new Array(n).fill("powderBlue"))
-    this.setState({values: array, rects: rects})
+    this.setState({values: array, rects: rects, buttonsOff: false, animate: false})
+    console.log(this.state);
+    
   }
+  handleClickBubbleSort() {
+    let vals = this.state.values;
+    this.setState({buttonsOff: true, animate: true})
+    console.log(this.state);
+
+    let [frames, framesColors] = bubbleSort(vals);
+
+    setTimeout(() => this.animate(frames, framesColors, 0), 10);
+  }
+
+  
+  handleClickQuickSort() {
+    let vals = this.state.values;
+    this.setState({buttonsOff:true, animate: true})
+    console.log(this.state);
+    
+    let [frames, framesColors] = quickSort(vals);
+    setTimeout(() => this.animate(frames, framesColors, 0), 10);  }
+
 
   handleClickMergeSort() {
       let vals = this.state.values;
+      this.setState({buttonsOff: true, animate: true})
+      console.log(this.state);
+    
       let [frames, framesColors] = mergeSort(vals);
-      this.animate(frames, framesColors, 0);
-  }
+      setTimeout(() => this.animate(frames, framesColors, 0), 10);  }
 
   render() {
     return (
       <div>
           <div className="titleContainer">
-            <h1>Sorting Project</h1>
+            <h1>Sorting Vizualizer</h1>
 
           </div>
       <div className="buttonContainer">
         <br/>
-        <button onClick={this.handleClickBubbleSort} className="buttons">bubble sort</button>
+        <button onClick={this.handleClickBubbleSort} className="buttons" disabled={this.state.buttonsOff}>bubble sort</button>
 
-        <button onClick = {this.handleClickQuickSort} className="buttons">quick sort</button>
+        <button onClick = {this.handleClickQuickSort} className="buttons" disabled={this.state.buttonsOff}>quick sort</button>
 
-        <button onClick = {this.handleClickMergeSort} className="buttons">merge sort</button>
+        <button onClick = {this.handleClickMergeSort} className="buttons" disabled={this.state.buttonsOff}>merge sort</button>
         
         <button onClick = {this.resetValues} className="buttons" id="specialButton">randomize array</button>
 
