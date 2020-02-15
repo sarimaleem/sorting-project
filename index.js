@@ -1,11 +1,10 @@
 import React, { memo } from "react";
 import ReactDOM from "react-dom";
+import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import "./index.css";
 import { bubbleSort } from "./bubbleSort";
 import { quickSort } from "./quickSort";
-import {mergeSort} from "./mergeSort"
-
-
+import { mergeSort } from "./mergeSort";
 
 function Rectangle(height, color) {
   return (
@@ -19,17 +18,24 @@ function Rectangle(height, color) {
 class CollectionOfRectangles extends React.Component {
   constructor(props) {
     super(props);
-    let size = 100 ;
+    let size = 50;
     let values = this.genValueArray(size);
     let rects = this.genRects(values, new Array(size).fill("powderBlue"));
 
-    this.state = { values: values, rects: rects, buttonsOff: false, animate: true};
+    this.state = {
+      values: values,
+      rects: rects,
+      buttonsOff: false,
+      animate: true,
+      size: 50,
+      delay: 5
+    };
 
-    this.handleClickBubbleSort = this.handleClickBubbleSort.bind(this);
-    this.handleClickQuickSort = this.handleClickQuickSort.bind(this);
-    this.handleClickMergeSort = this.handleClickMergeSort.bind(this)
+    this.handleSortClick = this.handleSortClick.bind(this);
     this.animate = this.animate.bind(this);
     this.resetValues = this.resetValues.bind(this);
+    this.handleSizeChange = this.handleSizeChange.bind(this);
+    this.handleDelayChange = this.handleDelayChange.bind(this);
   }
 
   genValueArray(n) {
@@ -54,87 +60,150 @@ class CollectionOfRectangles extends React.Component {
   }
 
   animate(frames, framesColors, index) {
+    
+    console.log(this.state)
     if (frames.length === index || !this.state.animate) {
-      console.log(this.state.animate);
+      console.log("animate: " + this.state.animate);
       return;
     }
 
     const currentHeights = frames[index];
     const currentColors = framesColors[index];
     let rectsArr = this.genRects(currentHeights, currentColors);
-
     this.setState({ rects: rectsArr, values: currentHeights });
-
-    let delay = 5;
+    let delay = this.state.delay;
     setTimeout(() => this.animate(frames, framesColors, index + 1), delay);
   }
 
   resetValues() {
-    let n = this.state.values.length;
+    let n = this.state.size;
     let array = this.genValueArray(n);
-    let rects = this.genRects(array, new Array(n).fill("powderBlue"))
-    this.setState({values: array, rects: rects, buttonsOff: false, animate: false})
-    console.log(this.state);
-    
-  }
-  handleClickBubbleSort() {
-    let vals = this.state.values;
-    this.setState({buttonsOff: true, animate: true})
-    console.log(this.state);
-
-    let [frames, framesColors] = bubbleSort(vals);
-
-    setTimeout(() => this.animate(frames, framesColors, 0), 10);
+    let rects = this.genRects(array, new Array(n).fill("powderBlue"));
+    this.setState({
+      values: array,
+      rects: rects,
+      buttonsOff: false,
+      animate: false
+    },console.log(this.state.animate))    
   }
 
-  
-  handleClickQuickSort() {
-    let vals = this.state.values;
-    this.setState({buttonsOff:true, animate: true})
-    console.log(this.state);
+  handleSortClick(sortName) {
+    let vals = this.state.values    
+    let frames, framesColors;
+    if(sortName === "bubblesort") {
+      [frames, framesColors] = bubbleSort(vals);
+    } else if(sortName === "quicksort") { 
+      [frames, framesColors] = quickSort(vals);
+    } else {
+      [frames, framesColors] = mergeSort(vals);
+    }
+    console.log(sortName);
     
-    let [frames, framesColors] = quickSort(vals);
-    setTimeout(() => this.animate(frames, framesColors, 0), 10);  }
+    this.setState({buttonsOff: true, animate: true}, () => this.animate(frames, framesColors, 0))
+    // setTimeout(() => this.animate(frames, framesColors, 0), 100)
 
 
-  handleClickMergeSort() {
-      let vals = this.state.values;
-      this.setState({buttonsOff: true, animate: true})
-      console.log(this.state);
+  }
+
+  handleSizeChange(e) {
+      this.setState(
+        {
+          size: Number(e.target.value)
+        },
+        () => this.resetValues()
+      );
+  }
+
+  handleDelayChange(e) {
+    this.setState(
+      {
+        delay: 505 - Number(e.target.value)
+      }
+    )
+    console.log(this.state.delay);
     
-      let [frames, framesColors] = mergeSort(vals);
-      setTimeout(() => this.animate(frames, framesColors, 0), 10);  }
+  }
 
   render() {
     return (
       <div>
-          <div className="titleContainer">
-            <h1>Sorting Vizualizer</h1>
+        <div className="titleContainer">
+          <h1>Sorting Vizualizer</h1>
+        </div>
+        <div className="buttonContainer">
+          <br />
+          <button
+            onClick={() => this.handleSortClick('bubblesort')}
+            className="buttons"
+            disabled={this.state.buttonsOff}
+          >
+            Bubble Sort
+          </button>
 
-          </div>
-      <div className="buttonContainer">
-        <br/>
-        <button onClick={this.handleClickBubbleSort} className="buttons" disabled={this.state.buttonsOff}>bubble sort</button>
+          <button
+            onClick={() => this.handleSortClick('quicksort')}
+            className="buttons"
+            disabled={this.state.buttonsOff}
+          >
+            Quick Sort
+          </button>
 
-        <button onClick = {this.handleClickQuickSort} className="buttons" disabled={this.state.buttonsOff}>quick sort</button>
+          <button
+            onClick={() => this.handleSortClick('mergesort')}
+            className="buttons"
+            disabled={this.state.buttonsOff}
+          >
+            Merge Sort
+          </button>
 
-        <button onClick = {this.handleClickMergeSort} className="buttons" disabled={this.state.buttonsOff}>merge sort</button>
-        
-        <button onClick = {this.resetValues} className="buttons" id="specialButton">randomize array</button>
+          <button
+            onClick={this.resetValues}
+            className="buttons"
+            id="specialButton"
+          >
+            Reset
+          </button>
 
-        <br/>
-        
-      </div>
-      <div className="rectangleContainer">
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        {this.state.rects}
-      </div>
-      <div className="bottom">
-        Created by Sarim Aleem
-      </div>
+          <br />
+        </div>
+        <div className="rectangleContainer">
+          <br />
+          <br />
+          <br />
+          <br />
+          {this.state.rects}
+        </div>
+
+<br/>
+<br/>
+
+        <div className="rangeContainer">
+
+          <div className = "descriptor"> Array Size </div>
+          <input
+            type="range"
+            min={5}
+            max={100}
+            step={1}
+            onChange={this.handleSizeChange}
+            className="slider"
+            disabled={this.state.buttonsOff}
+          ></input>
+
+          <div className = "descriptor"> Sorting Speed  </div>
+
+          <input
+            type="range"
+            min={5}
+            max={500}
+            step={1}
+            onChange={this.handleDelayChange}
+            className="slider"
+            disabled={this.state.buttonsOff}
+          ></input>
+        </div>
+
+        {/* <div className="bottom">Created by Sarim Aleem</div> */}
       </div>
     );
   }
