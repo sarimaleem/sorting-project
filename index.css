@@ -1,29 +1,28 @@
-
 .rectangle {
   /* border: black; */
-  width: 8px;
-  display: inline-block;  
+  /* width: 1%; */
+  display: inline-block;
   /* margin-left: px; */
   margin-right: 1px;
 }
 
 .titleContainer {
-  background-color: rgba(91, 25, 177, 0.931) ;
+  background-color: rgba(91, 25, 177, 0.931);
   margin-top: -50px;
 }
 
 .rectangleContainer {
-  text-align: center;
+  text-align: left;
 }
 
 body {
-  background-color: hsl(240, 100%, 97%) ;
+  background-color: hsl(240, 100%, 97%);
 }
 
 h1 {
   font-size: 75px;
   text-align: center;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   color: white;
 }
 
@@ -34,17 +33,17 @@ h1 {
 }
 
 .buttons {
-background-color: #4CAF50; /* Green */
-border: none;
-color: white;
-padding: 20px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-margin: 4px 2px;
-cursor: pointer;
-border-radius: 8px;
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .buttons:disabled {
@@ -62,15 +61,15 @@ border-radius: 8px;
 }
 
 .slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
+  -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
-  width: 25%; /* Full-width */
+  width: 33%; /* Full-width */
   height: 25px; /* Specified height */
   background: #d3d3d3; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-  transition: opacity .2s;
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
 }
 
 /* Mouse-over effects */
@@ -92,26 +91,24 @@ border-radius: 8px;
   appearance: none;
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 
 .slider::-moz-range-thumb {
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 
-
 .descriptor {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: large;
   font-weight: bold;
   color: purple;
   /* size: 20%; */
 }
-
 
 .bottom {
   background-color: black;
@@ -120,6 +117,3 @@ border-radius: 8px;
   text-align: center;
   height: 300px;
 }
-
-
-

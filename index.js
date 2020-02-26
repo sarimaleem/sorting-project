@@ -6,11 +6,11 @@ import { bubbleSort } from "./bubbleSort";
 import { quickSort } from "./quickSort";
 import { mergeSort } from "./mergeSort";
 
-function Rectangle(height, color) {
+function Rectangle(height, color, width) {
   return (
     <div
       className="rectangle"
-      style={{ height: height, background: color }}
+      style={{ height: height, background: color, width: width }}
     ></div>
   );
 }
@@ -42,7 +42,7 @@ class CollectionOfRectangles extends React.Component {
     let values = [];
 
     for (let i = 0; i < n; i++) {
-      let value = Math.floor(Math.random() * 250);
+      let value = Math.floor(Math.random() * 250 + 15);
       values.push(value);
     }
 
@@ -51,19 +51,23 @@ class CollectionOfRectangles extends React.Component {
 
   genRects(heights, colors) {
     let rects = [];
+    let size;
+
+    if (this.state === undefined) {
+      size = 50;
+    } else {
+      size = this.state.size;
+    }
 
     for (var i = 0; i < heights.length; i++) {
       let height = heights[i];
-      rects.push(Rectangle(height, colors[i]));
+      rects.push(Rectangle(height, colors[i], 100 / (size * 2.5) + "%"));
     }
     return rects;
   }
 
   animate(frames, framesColors, index) {
-    
-    console.log(this.state)
     if (frames.length === index || !this.state.animate) {
-      console.log("animate: " + this.state.animate);
       return;
     }
 
@@ -79,61 +83,57 @@ class CollectionOfRectangles extends React.Component {
     let n = this.state.size;
     let array = this.genValueArray(n);
     let rects = this.genRects(array, new Array(n).fill("powderBlue"));
-    this.setState({
-      values: array,
-      rects: rects,
-      buttonsOff: false,
-      animate: false
-    },console.log(this.state.animate))    
+    this.setState(
+      {
+        values: array,
+        rects: rects,
+        buttonsOff: false,
+        animate: false
+      },
+    );
   }
 
   handleSortClick(sortName) {
-    let vals = this.state.values    
+    let vals = this.state.values;
     let frames, framesColors;
-    if(sortName === "bubblesort") {
+    if (sortName === "bubblesort") {
       [frames, framesColors] = bubbleSort(vals);
-    } else if(sortName === "quicksort") { 
+    } else if (sortName === "quicksort") {
       [frames, framesColors] = quickSort(vals);
     } else {
       [frames, framesColors] = mergeSort(vals);
     }
-    console.log(sortName);
-    
-    this.setState({buttonsOff: true, animate: true}, () => this.animate(frames, framesColors, 0))
-    // setTimeout(() => this.animate(frames, framesColors, 0), 100)
 
-
+    this.setState({ buttonsOff: true, animate: true }, () =>
+      this.animate(frames, framesColors, 0)
+    );
   }
 
   handleSizeChange(e) {
-      this.setState(
-        {
-          size: Number(e.target.value)
-        },
-        () => this.resetValues()
-      );
+    this.setState(
+      {
+        size: Number(e.target.value)
+      },
+      () => this.resetValues()
+    );
   }
 
   handleDelayChange(e) {
-    this.setState(
-      {
-        delay: 505 - Number(e.target.value)
-      }
-    )
-    console.log(this.state.delay);
-    
+  this.setState({
+      delay: 505 - Number(e.target.value)
+    });
   }
 
   render() {
     return (
       <div>
         <div className="titleContainer">
-          <h1>Sorting Vizualizer</h1>
+          <h1>Sorting Visualizer</h1>
         </div>
         <div className="buttonContainer">
           <br />
           <button
-            onClick={() => this.handleSortClick('bubblesort')}
+            onClick={() => this.handleSortClick("bubblesort")}
             className="buttons"
             disabled={this.state.buttonsOff}
           >
@@ -141,7 +141,7 @@ class CollectionOfRectangles extends React.Component {
           </button>
 
           <button
-            onClick={() => this.handleSortClick('quicksort')}
+            onClick={() => this.handleSortClick("quicksort")}
             className="buttons"
             disabled={this.state.buttonsOff}
           >
@@ -149,7 +149,7 @@ class CollectionOfRectangles extends React.Component {
           </button>
 
           <button
-            onClick={() => this.handleSortClick('mergesort')}
+            onClick={() => this.handleSortClick("mergesort")}
             className="buttons"
             disabled={this.state.buttonsOff}
           >
@@ -174,12 +174,11 @@ class CollectionOfRectangles extends React.Component {
           {this.state.rects}
         </div>
 
-<br/>
-<br/>
+        <br />
+        <br />
 
         <div className="rangeContainer">
-
-          <div className = "descriptor"> Array Size </div>
+          <div className="descriptor"> Array Size </div>
           <input
             type="range"
             min={5}
@@ -190,7 +189,7 @@ class CollectionOfRectangles extends React.Component {
             disabled={this.state.buttonsOff}
           ></input>
 
-          <div className = "descriptor"> Sorting Speed  </div>
+          <div className="descriptor"> Sorting Speed </div>
 
           <input
             type="range"
@@ -199,6 +198,7 @@ class CollectionOfRectangles extends React.Component {
             step={1}
             onChange={this.handleDelayChange}
             className="slider"
+            value={505 - this.state.delay}
             disabled={this.state.buttonsOff}
           ></input>
         </div>

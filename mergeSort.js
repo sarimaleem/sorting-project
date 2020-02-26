@@ -2,6 +2,8 @@ export function mergeSort(array) {
   let frames = [];
   let framesColors = [];
   sort(array, 0, array.length - 1, frames, framesColors);
+  frames.push(array);
+  framesColors.push(new Array(array.length).fill("powderBlue"));
   return [frames, framesColors];
 }
 
@@ -15,8 +17,32 @@ function merge(array, l, m, r, frames, framesColors) {
   let R = [];
 
   /*Copy data to temp arrays*/
-  for (let i = 0; i < n1; ++i) L[i] = array[l + i];
-  for (let j = 0; j < n2; ++j) R[j] = array[m + 1 + j];
+  for (let i = 0; i < n1; ++i) {
+    L[i] = array[l + i];
+
+    let clone = cloneArray(array);
+    clone = clone.concat(L);
+    clone = clone.concat(R);
+    frames.push(clone);
+
+    let currentColors = new Array(array.length).fill("powderBlue");
+    currentColors = currentColors.concat(new Array(L.length).fill("black"));
+    currentColors = currentColors.concat(new Array(R.length).fill("black"));
+    framesColors.push(currentColors);
+  }
+  for (let j = 0; j < n2; ++j) {
+    R[j] = array[m + 1 + j];
+
+    let clone = cloneArray(array);
+    clone = clone.concat(L);
+    clone = clone.concat(R);
+    frames.push(clone);
+
+    let currentColors = new Array(array.length).fill("powderBlue");
+    currentColors = currentColors.concat(new Array(L.length).fill("black"));
+    currentColors = currentColors.concat(new Array(R.length).fill("black"));
+    framesColors.push(currentColors);
+  }
 
   /* Merge the temp arrays */
 
@@ -31,15 +57,39 @@ function merge(array, l, m, r, frames, framesColors) {
       array[k] = L[i];
       i++;
 
-      frames.push(cloneArray(array));
+      let clone = cloneArray(array);
+      clone = clone.concat(L);
+      clone = clone.concat(R);
+      frames.push(clone);
+
       let currentColors = new Array(array.length).fill("powderBlue");
+      currentColors[k] = "green";
+
+      let LColors = new Array(L.length).fill("black");
+      LColors[i - 1] = "green";
+      let RColors = new Array(R.length).fill("black");
+      RColors[j] = "red";
+
+      currentColors = currentColors.concat(LColors);
+      currentColors = currentColors.concat(RColors);
       framesColors.push(currentColors);
     } else {
       array[k] = R[j];
       j++;
 
-      frames.push(cloneArray(array));
+      let clone = cloneArray(array);
+      clone = clone.concat(L);
+      clone = clone.concat(R);
+      frames.push(clone);
+
       let currentColors = new Array(array.length).fill("powderBlue");
+      currentColors[k] = "green";
+      let LColors = new Array(L.length).fill("black");
+      LColors[i] = "red";
+      let RColors = new Array(R.length).fill("black");
+      RColors[j - 1] = "green";
+      currentColors = currentColors.concat(LColors);
+      currentColors = currentColors.concat(RColors);
       framesColors.push(currentColors);
     }
     k++;
@@ -51,8 +101,18 @@ function merge(array, l, m, r, frames, framesColors) {
     i++;
     k++;
 
-    frames.push(cloneArray(array));
+    let clone = cloneArray(array);
+    clone = clone.concat(L);
+    clone = clone.concat(R);
+    frames.push(clone);
+
     let currentColors = new Array(array.length).fill("powderBlue");
+    currentColors[k - 1] = "green";
+    let LColors = new Array(L.length).fill("black");
+    LColors[i - 1] = "green";
+    let RColors = new Array(R.length).fill("black");
+    currentColors = currentColors.concat(LColors);
+    currentColors = currentColors.concat(RColors);
     framesColors.push(currentColors);
   }
 
@@ -62,8 +122,18 @@ function merge(array, l, m, r, frames, framesColors) {
     j++;
     k++;
 
-    frames.push(cloneArray(array));
+    let clone = cloneArray(array);
+    clone = clone.concat(L);
+    clone = clone.concat(R);
+    frames.push(clone);
+
     let currentColors = new Array(array.length).fill("powderBlue");
+    currentColors[k - 1] = "green";
+    let LColors = new Array(L.length).fill("black");
+    let RColors = new Array(R.length).fill("black");
+    RColors[j - 1] = "green";
+    currentColors = currentColors.concat(LColors);
+    currentColors = currentColors.concat(RColors);
     framesColors.push(currentColors);
   }
 }
